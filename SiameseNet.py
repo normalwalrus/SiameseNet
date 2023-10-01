@@ -6,7 +6,10 @@ class SiameseNet(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.encoder = InceptionResnetV1(pretrained='vggface2')
+        self.encoder = InceptionResnetV1(pretrained='vggface2').eval()
+
+        for param in self.encoder.parameters():
+            param.requires_grad = False
         
         emb_len = 512
         self.last = nn.Sequential(
