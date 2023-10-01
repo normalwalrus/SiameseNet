@@ -1,3 +1,8 @@
 test/*
 train/*
+test-public-faces/*
+models/*
+csvSubmissions/*
 train_relationships.csv
+combined-public.csv
+modified-combined-public.csv
