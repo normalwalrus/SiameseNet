@@ -1,6 +1,4 @@
-test/*
-train/*
-test-public-faces/*
+data/*
 models/*
 csvSubmissions/*
 train_relationships.csv
