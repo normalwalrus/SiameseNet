@@ -1,6 +1,2 @@
-data/*
 models/*
-csvSubmissions/*
-train_relationships.csv
-combined-public.csv
-modified-combined-public.csv
+data/*
