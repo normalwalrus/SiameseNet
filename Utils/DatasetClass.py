@@ -10,10 +10,11 @@ class SmileDataset(Dataset):
         self.relations = relations
         self.person_to_image = person_to_image
         self.people_labels = list(person_to_image.keys())
-        self.image_transform = transforms.Compose([transforms.Resize(224), transforms.ToTensor(), transforms.Normalize(
-                        mean=[0.485, 0.456, 0.406],
-                        std=[0.229, 0.224, 0.225]
-            )])
+        # self.image_transform = transforms.Compose([transforms.Resize(224), transforms.ToTensor(), transforms.Normalize(
+        #                 mean=[0.485, 0.456, 0.406],
+        #                 std=[0.229, 0.224, 0.225]
+        #     )])
+        self.image_transform = transforms.ToTensor()
     
     def __len__(self):
         #2 times since we only have positive examples and every alternate example is negative
@@ -41,8 +42,6 @@ class SmileDataset(Dataset):
         image1 = Image.open(path1[random.randint(0, len(path1)-1)])
         image2 = Image.open(path2[random.randint(0, len(path2)-1)])
         
-        #convert_image_to_tensor_transform = transforms.ToTensor()
-
         image1_tensor = self.image_transform(image1)
         image2_tensor = self.image_transform(image2)
 
@@ -57,10 +56,11 @@ class SubmissionDataset(Dataset):
             self.person_to_image = person_to_image
             self.people_labels = list(person_to_image.keys())
 
-            self.image_transform = transforms.Compose([transforms.Resize(224), transforms.ToTensor(), transforms.Normalize(
-                        mean=[0.485, 0.456, 0.406],
-                        std=[0.229, 0.224, 0.225]
-            )])
+            # self.image_transform = transforms.Compose([transforms.Resize(224), transforms.ToTensor(), transforms.Normalize(
+            #                 mean=[0.485, 0.456, 0.406],
+            #                 std=[0.229, 0.224, 0.225]
+            #     )])
+            self.image_transform = transforms.ToTensor()
         
     def __len__(self):
         
