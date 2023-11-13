@@ -4,12 +4,13 @@ import random
 from PIL import Image
 
 class SmileDataset(Dataset):
-    def __init__(self, relations, person_to_image) -> None:
+    def __init__(self, relations, person_to_image, rgb = True) -> None:
         super().__init__()
 
         self.relations = relations
         self.person_to_image = person_to_image
         self.people_labels = list(person_to_image.keys())
+        self.rgb = rgb
         # self.image_transform = transforms.Compose([transforms.Resize(224), transforms.ToTensor(), transforms.Normalize(
         #                 mean=[0.485, 0.456, 0.406],
         #                 std=[0.229, 0.224, 0.225]
@@ -38,9 +39,13 @@ class SmileDataset(Dataset):
 
         path1 = self.person_to_image[p1]
         path2 = self.person_to_image[p2]
-        
-        image1 = Image.open(path1[random.randint(0, len(path1)-1)])
-        image2 = Image.open(path2[random.randint(0, len(path2)-1)])
+
+        if self.rgb:
+            image1 = Image.open(path1[random.randint(0, len(path1)-1)])
+            image2 = Image.open(path2[random.randint(0, len(path2)-1)])
+        else:
+            image1 = Image.open(path1[random.randint(0, len(path1)-1)]).convert('YCbCr')
+            image2 = Image.open(path2[random.randint(0, len(path2)-1)]).convert('YCbCr')
         
         image1_tensor = self.image_transform(image1)
         image2_tensor = self.image_transform(image2)
@@ -49,12 +54,13 @@ class SmileDataset(Dataset):
     
 
 class SubmissionDataset(Dataset):
-    def __init__(self, relations, person_to_image) -> None:
+    def __init__(self, relations, person_to_image, rgb = True) -> None:
             super().__init__()
 
             self.relations = relations
             self.person_to_image = person_to_image
             self.people_labels = list(person_to_image.keys())
+            self.rgb = rgb
 
             # self.image_transform = transforms.Compose([transforms.Resize(224), transforms.ToTensor(), transforms.Normalize(
             #                 mean=[0.485, 0.456, 0.406],
@@ -73,12 +79,16 @@ class SubmissionDataset(Dataset):
         path1 = self.person_to_image[p1]
         path2 = self.person_to_image[p2]
         
-        image1 = Image.open(path1[0])
-        image2 = Image.open(path2[0])
-        
-        #convert_image_to_tensor_transform = transforms.ToTensor()
+        if self.rgb:
+            image1 = Image.open(path1[0])
+            image2 = Image.open(path2[0])
+        else:
+            image1 = Image.open(path1[0]).convert('YCbCr')
+            image2 = Image.open(path2[0]).convert('YCbCr')
 
+        #convert_image_to_tensor_transform = transforms.ToTensor()
         image1_tensor = self.image_transform(image1)
         image2_tensor = self.image_transform(image2)
-
+        
         return image1_tensor, image2_tensor
+    
